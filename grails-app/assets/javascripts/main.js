@@ -60,32 +60,30 @@ function initSquares(numbers) {
 function swap() {
     let chain = Promise.resolve();
     for (let i of steps) {
-        chain = chain.then(() = > getProm(i)
-    )
-        ;
+        chain = chain.then(() => getProm(i));
     }
     return chain;
 }
 
 function getProm(i) {
-    return new Promise(resolve = > {
+    return new Promise(resolve => {
 
         let srcSquare = squares[i[0]];
-    let destSquare = squares[i[1]];
+        let destSquare = squares[i[1]];
 
-    srcSquare.turn = destSquare.x > srcSquare.x ? 1 : -1;
-    srcSquare.distance = destSquare.distance = Math.abs(destSquare.x - srcSquare.x);
-    srcSquare.draw();
+        srcSquare.turn = destSquare.x > srcSquare.x ? 1 : -1;
+        srcSquare.distance = destSquare.distance = Math.abs(destSquare.x - srcSquare.x);
+        srcSquare.draw();
 
-    destSquare.turn = srcSquare.x > destSquare.x ? 1 : -1;
-    destSquare.callback = resolve;
-    destSquare.draw();
+        destSquare.turn = srcSquare.x > destSquare.x ? 1 : -1;
+        destSquare.callback = resolve;
+        destSquare.draw();
 
-    const temp = squares[i[0]];
-    squares[i[0]] = squares[i[1]];
-    squares[i[1]] = temp;
+        const temp = squares[i[0]];
+        squares[i[0]] = squares[i[1]];
+        squares[i[1]] = temp;
 
-})
+    })
 }
 
 function drawRectangle(square) {
