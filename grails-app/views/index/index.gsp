@@ -6,24 +6,40 @@
     <asset:stylesheet src="application.css"/>
     <asset:stylesheet src="bootstrap.css"/>
     <asset:javascript src="main.js"/>
-    %{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--}%
+    <asset:javascript src="jquery-2.2.0.min.js"/>
+    <asset:javascript src="bootstrap.js"/>
+    <asset:javascript src="application.js"/>
 </head>
 
 <body>
 
-<canvas width="1000" height="100" id='canvas'>Your browser does not support canvas - go get Chrome!</canvas>
+<div class="row">
+    <canvas class="col-xs-offset-1" width="1000" height="100" id='canvas'>
+        Your browser does not support canvas - go get Chrome!
+    </canvas>
+</div>
 
-<div style="margin-left: 5%">
-    <input type="button" value="Swap!" onclick="swap();"/>
+<div class="row">
+    <div class="col-xs-offset-1 btn-group btn-group-sm" role="group">
+        <div class="btn-group col-lg-7" role="group">
+            <div class="input-group">
+                <input id="numbers" class="form-control" placeholder="Liczby do posortowania">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="createRandomInput()">Wylosuj!</button>
+                </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="sort()">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
-
-    let steps = ${steps};
-
-    drawSquares(${numbers});
+    let squares = [];
+    let speed = 5;
 </script>
 </body>
 </html>

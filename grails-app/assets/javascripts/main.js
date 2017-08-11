@@ -1,7 +1,7 @@
-let squares = [];
-let speed = 5;
+function initSquares() {
 
-function initSquares(numbers) {
+    squares = [];
+    let numbers = $('#numbers').val().split(',');
 
     for (let i = 0; i < numbers.length; i++) {
 
@@ -79,7 +79,7 @@ function initSquares(numbers) {
     }
 }
 
-function swap() {
+function swap(steps) {
     let chain = Promise.resolve();
     for (let i of steps) {
         chain = chain.then(() => getProm(i));

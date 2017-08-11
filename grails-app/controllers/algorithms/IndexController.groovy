@@ -3,14 +3,15 @@ package algorithms
 class IndexController {
 
     def index() {
-        def numbers = []
-        BubbleSortService bubbleSortService = new BubbleSortService()
+        render(view: "index")
+    }
 
-        Random random = new Random()
-        20.times { numbers.add(random.nextInt(100)) }
+    def sort() {
 
-        ArrayList steps = bubbleSortService.sort(numbers.clone())
+        def numbers = params.numbers.split(',').collect { Integer.parseInt(it) }
 
-        render(view: "index", model: [numbers: numbers, steps: steps])
+        SelectionSortService sortService = new SelectionSortService()
+        ArrayList steps = sortService.sort(numbers.clone())
+        render contentType: "text/json", text: steps.toString()
     }
 }
