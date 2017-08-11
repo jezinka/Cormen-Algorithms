@@ -1,10 +1,10 @@
 package algorithms
 
-class QuickSortService {
+class QuickSortService extends SortService {
 
-    ArrayList sortAlgorithm(ArrayList<Integer> arrayList) {
+    ArrayList sort(ArrayList<Integer> arrayList) {
         quickSort(arrayList, 0, arrayList.size() - 1)
-        return arrayList
+        return steps
     }
 
     void quickSort(ArrayList array, int p, int r) {
@@ -22,17 +22,10 @@ class QuickSortService {
         for (int j = p; j <= r - 1; j++) {
             if (array[j] <= x) {
                 i += 1
-                switchItemsInTable(array, i, j)
+                swapElementsInList(array, i, j)
             }
         }
-        switchItemsInTable(array, i + 1, r)
+        swapElementsInList(array, i + 1, r)
         return i + 1
-    }
-
-    static ArrayList switchItemsInTable(ArrayList<Integer> array, Integer src, Integer dst) {
-        int tmp = array[src]
-        array[src] = array[dst]
-        array[dst] = tmp
-        return [src, dst]
     }
 }
