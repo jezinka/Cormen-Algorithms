@@ -6,8 +6,8 @@ function initSquares(numbers) {
     for (let i = 0; i < numbers.length; i++) {
 
         squares.push({
-                'x': 50 + (50 * i) + 10,
-                'y': 50,
+            'x': 50 * i,
+            'y': 10,
                 'width': 30,
                 'height': 30,
                 'fill': 'cyan',
@@ -26,7 +26,7 @@ function initSquares(numbers) {
                     this.animId = window.requestAnimationFrame(square.draw.bind(square).bind(callback));
 
                     if (this.direction === "top") {
-                        if (this.y < 100) {
+                        if (this.y < 50) {
                             this.y += speed;
                         } else {
                             this.direction = "horizontally";
@@ -39,7 +39,7 @@ function initSquares(numbers) {
                             this.direction = "bottom"
                         }
                     } else if (this.direction === "bottom") {
-                        if (this.y > 50) {
+                        if (this.y > 10) {
                             this.y -= speed;
                         } else {
                             this.fill = 'cyan';
@@ -50,7 +50,7 @@ function initSquares(numbers) {
                             }
                         }
                     }
-                    drawRectangle(this);
+                    drawSquare(this);
                 }
             }
         )
@@ -86,7 +86,7 @@ function getProm(i) {
     })
 }
 
-function drawRectangle(square) {
+function drawSquare(square) {
     context.beginPath();
     context.rect(square.x, square.y, square.width, square.height);
 
@@ -102,14 +102,14 @@ function drawRectangle(square) {
     context.closePath();
 }
 
-function drawRectangles(numbers) {
+function drawSquares(numbers) {
 
     initSquares(numbers);
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < numbers.length; i++) {
-        drawRectangle(squares[i]);
+        drawSquare(squares[i]);
     }
 }
 
