@@ -24,6 +24,14 @@ abstract class SortService {
     }
 
     int findMinInTable(ArrayList array, int i, int n) {
-        array.indexOf(array[i..n - 1].min())
+        int lowest = i
+
+        for (int j = (i + 1); j < n; j++) {
+            if (array[j] < array[lowest]) {
+                lowest = j
+            }
+        }
+
+        lowest
     }
 }
