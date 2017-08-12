@@ -4,34 +4,43 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <asset:stylesheet src="application.css"/>
-    <asset:stylesheet src="bootstrap.css"/>
-    <asset:javascript src="main.js"/>
-    <asset:javascript src="jquery-2.2.0.min.js"/>
-    <asset:javascript src="bootstrap.js"/>
     <asset:javascript src="application.js"/>
 </head>
 
 <body>
 
 <div class="row">
-    <canvas class="col-xs-offset-1" width="1000" height="100" id='canvas'>
+    <canvas width="1000" height="100" id='canvas'>
         Your browser does not support canvas - go get Chrome!
     </canvas>
 </div>
 
 <div class="row">
-    <div class="col-xs-offset-1 btn-group btn-group-sm" role="group">
-        <div class="btn-group col-lg-7" role="group">
-            <div class="input-group">
-                <input id="numbers" class="form-control" placeholder="Liczby do posortowania">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="createRandomInput()">Wylosuj!</button>
-                </span>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="sort()">Go!</button>
-                </span>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button id="dropdownButton" type="button" class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-expanded="false" value="bubbleSort">
+                    Bubble Sort <span class="caret"></span>
+                </button>
+                <ul id="sortingAlgorithms" class="dropdown-menu">
+                    <li value="bubbleSort"><a href="#">Bubble Sort</a></li>
+                    <li value="selectionSort"><a href="#">Selection Sort</a></li>
+                    <li value="quickSort"><a href="#">Quick Sort</a></li>
+                </ul>
             </div>
+
+            <input id="numbers" class="form-control" placeholder="Liczby do posortowania">
+
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="initSquares()">Odśwież!</button>
+                <button class="btn btn-default" type="button" onclick="createRandomInput()">Wylosuj!</button>
+                <button class="btn btn-default" type="button" onclick="sort()">Go!</button>
+            </div>
+
         </div>
+
     </div>
 </div>
 

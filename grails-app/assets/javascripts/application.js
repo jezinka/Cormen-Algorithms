@@ -19,23 +19,3 @@ if (typeof jQuery !== 'undefined') {
         });
     })(jQuery);
 }
-
-function createRandomInput() {
-    let randoms = [];
-    for (let i = 0; i < 10; i++) {
-        randoms.push(Math.floor(Math.random() * 100));
-    }
-    $('#numbers').val(randoms.join(','));
-    drawSquares(randoms);
-}
-
-function sort() {
-    let numbers = $('#numbers').val();
-    $.ajax({
-        method: "POST",
-        url: "/index/sort",
-        data: {numbers: numbers}
-    }).done(function (steps) {
-        swap(steps);
-    });
-}

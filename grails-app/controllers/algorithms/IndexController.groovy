@@ -10,7 +10,7 @@ class IndexController {
 
         def numbers = params.numbers.split(',').collect { Integer.parseInt(it) }
 
-        SelectionSortService sortService = new SelectionSortService()
+        SortService sortService = SortService.createService(params.algorithmName)
         ArrayList steps = sortService.sort(numbers.clone())
         render contentType: "text/json", text: steps.toString()
     }

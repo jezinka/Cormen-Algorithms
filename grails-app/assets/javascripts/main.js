@@ -77,6 +77,12 @@ function initSquares() {
             }
         )
     }
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < numbers.length; i++) {
+        drawSquare(squares[i]);
+    }
 }
 
 function swap(steps) {
@@ -145,17 +151,6 @@ function drawSquare(square) {
     context.closePath();
 }
 
-function drawSquares(numbers) {
-
-    initSquares(numbers);
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < numbers.length; i++) {
-        drawSquare(squares[i]);
-    }
-}
-
 (function () {
     let lastTime = 0;
     const vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -182,3 +177,30 @@ function drawSquares(numbers) {
             clearTimeout(id);
         };
 }());
+
+
+function createRandomInput() {
+    let randoms = [];
+    for (let i = 0; i < 10; i++) {
+        randoms.push(Math.floor(Math.random() * 100));
+    }
+    $('#numbers').val(randoms.join(','));
+    initSquares();
+}
+
+function sort() {
+    let numbers = $('#numbers').val();
+    $.ajax({
+        method: "POST",
+        url: "/index/sort",
+        data: {numbers: numbers, algorithmName: $('#dropdownButton').attr('value')}
+    }).done(function (steps) {
+        swap(steps);
+    });
+}
+
+$().ready(function () {
+    $('#sortingAlgorithms li').on('click', function () {
+        $('#dropdownButton').text(($(this).text())).attr('value', $(this).attr('value'));
+    });
+});
