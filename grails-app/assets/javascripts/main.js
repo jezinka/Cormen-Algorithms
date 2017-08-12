@@ -86,6 +86,8 @@ function initSquares() {
 }
 
 function swap(steps) {
+    initSquares();
+
     let chain = Promise.resolve();
     for (let i of steps) {
         chain = chain.then(() => getProm(i));

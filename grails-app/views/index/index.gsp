@@ -34,7 +34,7 @@
             <input id="numbers" class="form-control" placeholder="Liczby do posortowania">
 
             <div class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="initSquares()">Odśwież!</button>
+                %{--<button class="btn btn-default" type="button" onclick="initSquares()">Odśwież!</button>--}%
                 <button class="btn btn-default" type="button" onclick="createRandomInput()">Wylosuj!</button>
                 <button class="btn btn-default" type="button" onclick="sort()">Go!</button>
             </div>
