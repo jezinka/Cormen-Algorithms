@@ -1,7 +1,10 @@
-function initSquares() {
+function initSquares(numbers, resolve) {
 
     squares = [];
-    let numbers = $('#numbers').val().split(',');
+
+    if (numbers === undefined) {
+        numbers = $('#numbers').val().split(',');
+    }
 
     for (let i = 0; i < numbers.length; i++) {
 
@@ -45,9 +48,7 @@ function initSquares() {
                             this.fill = 'cyan';
                             window.cancelAnimationFrame(this.animId);
                             this.direction = "top";
-                            if (this.callback) {
-                                this.callback()
-                            }
+                            this.callback()
                         }
                     }
                 drawSquare(this);
@@ -81,63 +82,91 @@ function initSquares() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < numbers.length; i++) {
-        drawSquare(squares[i]);
+        Promise.all([
+            new Promise(resolve => {
+                drawSquare(squares[i], resolve);
+            })
+        ])
     }
+
+    if (resolve) {
+        resolve()
+    }
+
 }
 
 function swap(steps) {
     initSquares();
 
     let chain = Promise.resolve();
-    for (let i of steps) {
-        chain = chain.then(() => getProm(i));
+    for (let step of steps) {
+        if (step[2] === 'swap') {
+            chain = chain.then(() => getProm(step));
+        } else {
+            chain = chain.then(() => getPromShift(step));
+        }
     }
     return chain;
 }
 
 function getProm(i) {
-    return new Promise(resolve => {
 
-        let srcSquare = squares[i[0]];
-        let destSquare = squares[i[1]];
+    let srcSquare = squares[i[0]];
+    let destSquare = squares[i[1]];
 
-        srcSquare.turn = destSquare.x > srcSquare.x ? 1 : -1;
-        srcSquare.distance = destSquare.distance = Math.abs(destSquare.x - srcSquare.x);
-        srcSquare.drawSwap();
+    return Promise.all([
+        new Promise(resolve => {
 
-        destSquare.turn = srcSquare.x > destSquare.x ? 1 : -1;
-        destSquare.callback = resolve;
-        destSquare.drawSwap();
+            srcSquare.turn = destSquare.x > srcSquare.x ? 1 : -1;
+            srcSquare.distance = Math.abs(destSquare.x - srcSquare.x);
+            srcSquare.callback = resolve;
+            srcSquare.drawSwap();
 
-        const temp = squares[i[0]];
-        squares[i[0]] = squares[i[1]];
-        squares[i[1]] = temp;
+        }),
+        new Promise(resolve => {
 
-    })
+            destSquare.turn = srcSquare.x > destSquare.x ? 1 : -1;
+            destSquare.distance = Math.abs(destSquare.x - srcSquare.x);
+            destSquare.callback = resolve;
+            destSquare.drawSwap();
+
+        }),
+
+    ]).then(() => new Promise(resolve => {
+        initSquares(i[3], resolve);
+    }));
 }
 
 function getPromShift(i) {
-    return new Promise(resolve => {
+    let promises = [];
+
+    promises.push(new Promise(resolve => {
 
         let srcSquare = squares[i[0]];
         let destSquare = squares[i[1]];
 
-        srcSquare.turn = destSquare.x > srcSquare.x ? 1 : -1;
-        srcSquare.distance = destSquare.distance = Math.abs(destSquare.x - srcSquare.x);
+        srcSquare.turn = -1;
+        srcSquare.distance = Math.abs(destSquare.x - srcSquare.x);
         srcSquare.callback = resolve;
         srcSquare.drawSwap();
+    }));
 
-        destSquare.turn = srcSquare.x > destSquare.x ? 1 : -1;
-        destSquare.drawShift();
+    // for (let j = i[1]; j <= i[0]; j++) {
+    //     promises.push(new Promise(resolve => {
+    //         let square = squares[j];
+    //         square.turn = 1;
+    //         square.distance = Math.abs(square.x - squares[j + 1].x);
+    //         square.callback = resolve;
+    //         square.drawShift();
+    //     }));
+    // }
 
-        const temp = squares[i[0]];
-        squares[i[0]] = squares[i[1]];
-        squares[i[1]] = temp;
-
-    })
+    return Promise.all(promises).then(() => new Promise(resolve => {
+        initSquares(i[3], resolve);
+    }));
 }
 
-function drawSquare(square) {
+function drawSquare(square, resolve) {
     context.beginPath();
     context.rect(square.x, square.y, square.width, square.height);
 
@@ -151,6 +180,10 @@ function drawSquare(square) {
     context.textBaseline = "middle";
     context.fillText(square.value.toString(), textX, textY);
     context.closePath();
+
+    if (resolve) {
+        resolve()
+    }
 }
 
 (function () {
@@ -198,6 +231,8 @@ function sort() {
         data: {numbers: numbers, algorithmName: $('#dropdownButton').attr('value')}
     }).done(function (steps) {
         swap(steps);
+    }).fail(function (exception) {
+        console.log(exception);
     });
 }
 

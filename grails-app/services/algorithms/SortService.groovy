@@ -12,6 +12,8 @@ abstract class SortService {
                 return new QuickSortService()
             case 'selectionSort':
                 return new SelectionSortService()
+            case 'insertionSort':
+                return new InsertionSortService()
         }
         return new BubbleSortService()
     }
@@ -19,8 +21,10 @@ abstract class SortService {
     abstract sort(ArrayList<Integer> array)
 
     void swapElementsInList(ArrayList<Integer> array, Integer src, Integer dst) {
-        array.swap(src, dst)
-        steps.add([src, dst])
+        if (src != dst) {
+            array.swap(src, dst)
+            steps.add([src, dst, 'swap', array.clone()])
+        }
     }
 
     int findMinInTable(ArrayList array, int i, int n) {
