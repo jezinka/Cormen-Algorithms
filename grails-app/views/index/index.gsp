@@ -28,7 +28,7 @@
                     <li value="bubbleSort"><a href="#">Bubble Sort</a></li>
                     <li value="selectionSort"><a href="#">Selection Sort</a></li>
                     <li value="quickSort"><a href="#">Quick Sort</a></li>
-                    %{--<li value="insertionSort"><a href="#">Insertion Sort</a></li>--}%
+                    <li value="insertionSort"><a href="#">Insertion Sort</a></li>
                 </ul>
             </div>
 

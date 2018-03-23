@@ -151,15 +151,16 @@ function getPromShift(i) {
         srcSquare.drawSwap();
     }));
 
-    // for (let j = i[1]; j <= i[0]; j++) {
-    //     promises.push(new Promise(resolve => {
-    //         let square = squares[j];
-    //         square.turn = 1;
-    //         square.distance = Math.abs(square.x - squares[j + 1].x);
-    //         square.callback = resolve;
-    //         square.drawShift();
-    //     }));
-    // }
+    for (let j = i[1]; j < i[0]; j++) {
+        let square = squares[j];
+        console.log(square.value);
+        promises.push(new Promise(resolve => {
+            square.turn = 1;
+            square.distance = square.width + 20;
+            square.callback = resolve;
+            square.drawShift();
+        }));
+    }
 
     return Promise.all(promises).then(() => new Promise(resolve => {
         initSquares(i[3], resolve);
