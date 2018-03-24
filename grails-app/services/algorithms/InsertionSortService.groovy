@@ -1,6 +1,6 @@
 package algorithms
 
-class InsertionSortService extends SortService {
+class InsertionSortService extends SortService implements SortInterface {
 
     def sort(ArrayList<Integer> arrayList) {
 

@@ -12,9 +12,23 @@ class IndexController {
 
         def numbers = params.numbers.split(',').collect { Integer.parseInt(it) }
 
-        SortService sortService = SortService.createService(params.algorithmName)
+        SortInterface sortService = createService(params.algorithmName)
         sortService.sort(numbers.clone())
 
         render contentType: "application/json", text: JsonOutput.toJson(sortService.steps)
+    }
+
+    private SortInterface createService(String sortAlgorithmName) {
+        switch (sortAlgorithmName) {
+            case 'bubbleSort':
+                return new BubbleSortService()
+            case 'quickSort':
+                return new QuickSortService()
+            case 'selectionSort':
+                return new SelectionSortService()
+            case 'insertionSort':
+                return new InsertionSortService()
+        }
+        return new BubbleSortService()
     }
 }

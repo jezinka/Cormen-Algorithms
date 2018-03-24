@@ -1,6 +1,6 @@
 package algorithms
 
-class QuickSortService extends SortService {
+class QuickSortService extends SortService implements SortInterface {
 
     ArrayList sort(ArrayList<Integer> arrayList) {
         quickSort(arrayList, 0, arrayList.size() - 1)
@@ -22,10 +22,10 @@ class QuickSortService extends SortService {
         for (int j = p; j <= r - 1; j++) {
             if (array[j] <= x) {
                 i += 1
-                swapElementsInList(array, i, j)
+                UtilsService.swapElementsInList(steps, array, i, j)
             }
         }
-        swapElementsInList(array, i + 1, r)
+        UtilsService.swapElementsInList(steps, array, i + 1, r)
         return i + 1
     }
 }
